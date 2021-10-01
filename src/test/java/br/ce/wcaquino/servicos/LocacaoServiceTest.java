@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -45,5 +46,20 @@ public class LocacaoServiceTest {
 		
 		//acao
 		service.alugarFilme(usuario, filme);
+	}
+	
+	@Test
+	public void testLocacao_filmeSemEstoque2() {
+		//cenario
+		LocacaoService service = new LocacaoService();
+		Usuario usuario = new Usuario("Usuario 1");
+		Filme filme = new Filme("Filme 1", 0, 5.0);
+		
+		//acao
+		try {
+			service.alugarFilme(usuario, filme);
+		} catch (Exception e) {
+			Assert.assertThat(e.getMessage(), is("Filme sem estoque"));
+		}
 	}
 }
