@@ -58,6 +58,7 @@ public class LocacaoServiceTest {
 		//acao
 		try {
 			service.alugarFilme(usuario, filme);
+			Assert.fail("Deveria ter lançado uma exceção");
 		} catch (Exception e) {
 			Assert.assertThat(e.getMessage(), is("Filme sem estoque"));
 		}
