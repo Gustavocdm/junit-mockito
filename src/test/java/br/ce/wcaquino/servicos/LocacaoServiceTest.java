@@ -7,6 +7,7 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -16,6 +17,7 @@ import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
+import br.ce.wcaquino.exceptions.LocadoraException;
 
 public class LocacaoServiceTest {
 
@@ -50,5 +52,35 @@ public class LocacaoServiceTest {
 		
 		//acao
 		service.alugarFilme(usuario, filme);
+		System.out.println("Forma elegante");
+	}
+	
+	@Test
+	public void testeLocacao_usuarioVazio() throws FilmeSemEstoqueException {
+		//cenario
+		LocacaoService service = new LocacaoService();
+		Filme filme = new Filme("Filme 1", 2, 5.0);
+		
+		//acao
+		try {
+			service.alugarFilme(null, filme);
+			Assert.fail();
+		} catch (LocadoraException e) {
+			Assert.assertThat(e.getMessage(), is("Usuario vazio"));
+		}
+		System.out.println("Forma robusta");
+	}
+	
+	@Test
+	public void testeLocacao_filmeVazio() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		LocacaoService service = new LocacaoService();
+		Usuario usuario = new Usuario("Usuario 1");
+		exception.expect(LocadoraException.class);
+		exception.expectMessage("Filme vazio");
+		
+		//acao
+		service.alugarFilme(usuario, null);
+		System.out.println("3º forma");
 	}
 }
