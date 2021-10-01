@@ -7,11 +7,8 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Date;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -44,8 +41,6 @@ public class LocacaoServiceTest {
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 2, 5.0);
 		
-		System.out.println("Teste!");
-		
 		//acao
 		Locacao locacao = service.alugarFilme(usuario, filme);
 		
@@ -63,7 +58,6 @@ public class LocacaoServiceTest {
 		
 		//acao
 		service.alugarFilme(usuario, filme);
-		System.out.println("Forma elegante");
 	}
 	
 	@Test
@@ -78,7 +72,6 @@ public class LocacaoServiceTest {
 		} catch (LocadoraException e) {
 			Assert.assertThat(e.getMessage(), is("Usuario vazio"));
 		}
-		System.out.println("Forma robusta");
 	}
 	
 	@Test
@@ -90,6 +83,5 @@ public class LocacaoServiceTest {
 		
 		//acao
 		service.alugarFilme(usuario, null);
-		System.out.println("3º forma");
 	}
 }
