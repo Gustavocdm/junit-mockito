@@ -7,7 +7,6 @@ import static org.hamcrest.CoreMatchers.is;
 
 import java.util.Date;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -16,6 +15,7 @@ import org.junit.rules.ExpectedException;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 
 public class LocacaoServiceTest {
 
@@ -41,41 +41,12 @@ public class LocacaoServiceTest {
 		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 	}
 	
-	@Test(expected=Exception.class)
+	@Test(expected=FilmeSemEstoqueException.class)
 	public void testLocacao_filmeSemEstoque() throws Exception {
 		//cenario
 		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
-		
-		//acao
-		service.alugarFilme(usuario, filme);
-	}
-	
-	@Test
-	public void testLocacao_filmeSemEstoque2() {
-		//cenario
-		LocacaoService service = new LocacaoService();
-		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
-		
-		//acao
-		try {
-			service.alugarFilme(usuario, filme);
-			Assert.fail("Deveria ter lançado uma exceção");
-		} catch (Exception e) {
-			Assert.assertThat(e.getMessage(), is("Filme sem estoque"));
-		}
-	}
-	
-	@Test
-	public void testLocacao_filmeSemEstoque3() throws Exception {
-		//cenario
-		LocacaoService service = new LocacaoService();
-		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
-		exception.expect(Exception.class);
-		exception.expectMessage("Filme sem estoque");
 		
 		//acao
 		service.alugarFilme(usuario, filme);
