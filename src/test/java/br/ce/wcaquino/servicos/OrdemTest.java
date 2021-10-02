@@ -19,5 +19,4 @@ public class OrdemTest {
 	public void verifica() {
 		Assert.assertEquals(1, contador);
 	}
-	
 }
