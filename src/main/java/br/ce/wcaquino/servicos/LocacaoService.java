@@ -35,7 +35,7 @@ public class LocacaoService {
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
 //		locacao.setValor(filmes.getPrecoLocacao());
-		locacao.setValor(filmes.stream().map(Filme::getPrecoLocacao).reduce(0.0, (a, b) -> a + b));
+		locacao.setValor(aplicarDescontos(filmes));
 		
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
@@ -46,5 +46,21 @@ public class LocacaoService {
 		//TODO adicionar método para salvar
 		
 		return locacao;
+	}
+	
+	private Double aplicarDescontos(List <Filme> filmesAlugados) {
+		Double descontosAplicados = 0.0;
+		int index = 1;
+		for (Filme filme : filmesAlugados) {
+			switch (index) {
+				case 3: descontosAplicados += filme.getPrecoLocacao() * 0.75d; break;
+				case 4: descontosAplicados += filme.getPrecoLocacao() / 2; break;
+				case 5: descontosAplicados += filme.getPrecoLocacao() * 0.25d; break;
+				case 6: break;
+				default: descontosAplicados += filme.getPrecoLocacao(); break;
+			}			
+			index++;
+		}
+		return descontosAplicados;
 	}
 }
