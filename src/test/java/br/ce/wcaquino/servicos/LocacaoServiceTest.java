@@ -7,11 +7,14 @@ import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 import static br.ce.wcaquino.matchers.MatchersProprios.caiNumaSegunda;
 import static br.ce.wcaquino.matchers.MatchersProprios.ehHoje;
 import static br.ce.wcaquino.matchers.MatchersProprios.ehHojeComDiferencaDeDias;
-import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -137,7 +140,8 @@ public class LocacaoServiceTest {
 		Usuario usuario = umUsuario().agora();
 		List<Filme> filmes = Arrays.asList(umFilme().agora());
 		
-		when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		// when(spc.possuiNegativacao(usuario)).thenReturn(true);
+		when(spc.possuiNegativacao(Mockito.any(Usuario.class))).thenReturn(true);
 		
 		// acao
 		try {
@@ -155,17 +159,26 @@ public class LocacaoServiceTest {
 	public void deveEnviarEmailParaLocacoesAtrasadas() {
 		// cenario
 		Usuario usuario = umUsuario().agora();
+		Usuario usuario2 = umUsuario().comNome("Usuario 2").agora();
+		Usuario usuario3 = umUsuario().comNome("Usuario 3").agora();
+		
 		List<Locacao> locacoes = Arrays.asList(
-				umaLocacao()
-					.comUsuario(usuario)
-					.comDataRetorno(obterDataComDiferencaDias(2))
-					.agora());
+				umaLocacao().atrasada().comUsuario(usuario).agora(),
+				umaLocacao().comUsuario(usuario2).agora(),
+				umaLocacao().atrasada().comUsuario(usuario3).agora(),
+				umaLocacao().atrasada().comUsuario(usuario3).agora());
+		
 		when(dao.obterLocacoesPendentes()).thenReturn(locacoes);
 		
 		// acao
 		service.notificarAtrasos();
 		
 		// verificacao
+		verify(email, times(3)).notificarAtraso(Mockito.any(Usuario.class));
 		verify(email).notificarAtraso(usuario);
+		verify(email, atLeastOnce()).notificarAtraso(usuario3);
+		verify(email, never()).notificarAtraso(usuario2);
+		verifyNoMoreInteractions(email);
+		// verifyZeroInteractions(spc);
 	}
 }
