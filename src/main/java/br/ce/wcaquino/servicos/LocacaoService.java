@@ -1,6 +1,7 @@
 package br.ce.wcaquino.servicos;
 
 import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
+import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -92,5 +93,16 @@ public class LocacaoService {
 			index++;
 		}
 		return descontosAplicados;
+	}
+	
+	public void prorrogarLocacao(Locacao locacao, int dias) {
+		Locacao novaLocacao = new Locacao();
+		novaLocacao.setUsuario(locacao.getUsuario());
+		novaLocacao.setFilmes(locacao.getFilmes());
+		novaLocacao.setValor(locacao.getValor() * dias);
+		novaLocacao.setDataLocacao(new Date());
+		novaLocacao.setDataRetorno(obterDataComDiferencaDias(dias));
+		
+		dao.salvar(novaLocacao);
 	}
 }
