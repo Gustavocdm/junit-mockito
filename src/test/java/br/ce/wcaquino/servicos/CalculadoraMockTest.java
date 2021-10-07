@@ -33,12 +33,12 @@ public class CalculadoraMockTest {
 //		Mockito.doReturn(5).when(calcSpy).somar(1, 2);
 		Mockito.doNothing().when(calcSpy).imprimi(); 
 		
-		System.out.println("Mock: " + calcMock.somar(1, 2));
-		System.out.println("Spy: " + calcSpy.somar(1, 2));
+//		System.out.println("Mock: " + calcMock.somar(1, 2));
+//		System.out.println("Spy: " + calcSpy.somar(1, 2));
 		
-		System.out.println("Mock");
+//		System.out.println("Mock");
 		calcMock.imprimi();
-		System.out.println("Spy");
+//		System.out.println("Spy");
 		calcSpy.imprimi();
 	}
 	
