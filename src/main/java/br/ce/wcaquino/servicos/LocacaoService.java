@@ -54,7 +54,7 @@ public class LocacaoService {
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(Calendar.getInstance().getTime());
 //		locacao.setValor(filmes.getPrecoLocacao());
-		locacao.setValor(aplicarDescontos(filmes));
+		locacao.setValor(calcularValorLocacao(filmes));
 		
 		//Entrega no dia seguinte
 		Date dataEntrega = Calendar.getInstance().getTime();
@@ -79,7 +79,7 @@ public class LocacaoService {
 		}
 	}
 	
-	private Double aplicarDescontos(List <Filme> filmesAlugados) {
+	private Double calcularValorLocacao(List <Filme> filmesAlugados) {
 		Double descontosAplicados = 0.0;
 		int index = 1;
 		for (Filme filme : filmesAlugados) {
