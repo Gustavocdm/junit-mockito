@@ -5,6 +5,27 @@
 	<groupId>br.ce.wcaquino</groupId>
 	<artifactId>TestesUnitarios</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<build>
+		<testSourceDirectory>src</testSourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+					<!-- <threadCount>2</threadCount> -->
+					<useUnlimitedThreads>true</useUnlimitedThreads>
+					<parallel>all</parallel>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -19,13 +40,13 @@
 			<artifactId>mockito-all</artifactId>
 			<version>1.10.19</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
 			<version>1.6.6</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
